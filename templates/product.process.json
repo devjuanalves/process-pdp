@@ -1,0 +1,28 @@
+{
+  "sections": {
+    "main-product-process": {
+      "type": "main-product-process",
+      "settings": {
+        "show_eyebrow": true
+      }
+    },
+    "pdp-customise": {
+      "type": "pdp-customise",
+      "settings": {}
+    },
+    "pdp-editorial-behind-ring": {
+      "type": "pdp-editorial-behind-ring",
+      "settings": {}
+    },
+    "product-recos-meta": {
+      "type": "product-recos-meta",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main-product-process",
+    "pdp-editorial-behind-ring",
+    "pdp-customise",
+    "product-recos-meta"
+  ]
+}

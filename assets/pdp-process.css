@@ -1,0 +1,1407 @@
+/* =========================================================
+   Process Creative – PDP
+   Master stylesheet for:
+   - Main PDP layout
+   - Media gallery
+   - Sidebar (options, CTA, delivery note)
+   - Recommendations (inline + standalone)
+   - Behind the Ring
+   - Customise
+   - Mobile adaptations
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   1) DESIGN TOKENS / GLOBAL VARIABLES
+   --------------------------------------------------------- */
+
+:root {
+  --pc-max-width: 1200px;
+  --pc-page-pad-x: 2.5rem;
+  --pc-page-pad-y: 3rem;
+
+  --pc-bg-page: #f7f4ef;
+  --pc-text: #1b1b1b;
+  --pc-muted: #8a857e;
+  --pc-border: rgba(0, 0, 0, 0.04);
+
+  --pc-heading-font: "Amiri", "Times New Roman", serif;
+  --pc-body-font: "Matter", system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+
+  --pc-cta-bg: #000;
+  --pc-cta-color: #fff;
+}
+
+/* ---------------------------------------------------------
+   3) SHOPIFY PRODUCT TEMPLATE RESET
+   - Remove default horizontal padding for sections
+   --------------------------------------------------------- */
+
+.template-product .page-width,
+.template-product .shopify-section {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+/* ---------------------------------------------------------
+   4) PDP – MAIN WRAPPER LAYOUT (DESKTOP)
+   - Overall PDP container + beige left background
+   --------------------------------------------------------- */
+
+/* ---------- PDP – MAIN LAYOUT (DESKTOP) ---------- */
+.pc-pdp {
+  position: relative;
+  width: 100%;
+  padding: 0 0 3rem;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  overflow: visible;
+  z-index: 0;
+}
+
+/* Beige background on left half, behind gallery + sidebar */
+.pc-pdp::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50vw;
+  height: 808px;
+  background: #fafaf6;
+  z-index: -1;
+}
+
+/* PDP – Beige background behind header (desktop only) */
+@media (min-width: 1100px) {
+  .pc-pdp::before {
+    top: -72px; /* sobe para começar atrás do header (altura ~72px) */
+    height: 880px; /* 808px + 72px para compensar a subida */
+  }
+}
+
+/* Content above beige block */
+.pc-pdp__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.pc-pdp__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  gap: 64px;
+  align-items: flex-start;
+}
+
+/* ---------------------------------------------------------
+   5) PDP – MEDIA GALLERY (LEFT COLUMN, DESKTOP)
+   --------------------------------------------------------- */
+
+.pc-pdp__media-col {
+  position: relative;
+  width: 50vw;
+  max-width: 720px;
+  height: 808px;
+  background: transparent;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pc-pdp__media-frame {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pc-pdp__media-item {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.pc-pdp__media-item.is-active {
+  display: flex;
+}
+
+.pc-pdp__media-frame img,
+.pc-pdp__media-frame video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Gallery arrows (inside beige area) */
+.pc-pdp__media-prev,
+.pc-pdp__media-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 40px;
+  border: none;
+  background: #1d0f0709;
+  color: #000;
+  font-size: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.pc-pdp__media-prev {
+  left: 40px;
+}
+
+.pc-pdp__media-next {
+  right: 40px;
+}
+
+/* Media counter (bottom-centered over gallery) */
+.pc-pdp__media-count {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  min-width: 48px;
+  height: 24px;
+  text-align: center;
+  font-weight: 430;
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums proportional-nums;
+  color: #7f7b74;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   6) PDP – SIDEBAR (RIGHT COLUMN, DESKTOP)
+   - Eyebrow, title, price, options, CTA, delivery note
+   --------------------------------------------------------- */
+
+.pc-pdp__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-family: var(--pc-body-font);
+  color: var(--pc-text);
+  background: #fff;
+}
+
+.pc-pdp__eyebrow {
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: #010101;
+  margin-bottom: 8px;
+}
+
+.pc-pdp__title {
+  font-family: "Amiri", "Times New Roman", serif;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 32px;
+  color: #121212;
+  margin: 0;
+}
+
+.pc-pdp__price-lead {
+  font-family: "Matter SQ TRIAL", system-ui, -apple-system;
+  font-weight: 430;
+  font-size: 16px;
+  line-height: 30px;
+  color: #000;
+}
+
+/* Attribute row (label/value pairs) */
+.pc-pdp__attribute {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+}
+
+.pc-pdp__attribute-label {
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.6rem;
+  color: #877d72;
+}
+
+.pc-pdp__attribute-value {
+  font-size: 0.7rem;
+  color: #000;
+}
+
+/* Option groups wrapper */
+.pc-pdp__option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 48px;
+}
+
+/* Option header (label + selected value) */
+.pc-pdp__option-header {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 40px 0 8px 0;
+}
+
+.pc-pdp__option-label,
+.pc-pdp__option-current {
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  font-weight: 430;
+  font-size: 14px;
+  line-height: 28px;
+  color: #010101;
+}
+
+.pc-pdp__option-current {
+  color: #b6afa7;
+}
+
+/* Swatch row (generic) */
+.pc-pdp__swatch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 40px;
+}
+
+/* Swatch tile (generic) */
+.pc-pdp__swatch-tile {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fefefe;
+  border-radius: 0.4rem;
+  min-width: 3.4rem;
+  min-height: 3.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: 0.12s ease-out;
+}
+
+.pc-pdp__swatch-tile.is-active,
+.pc-pdp__swatch-tile:hover {
+  border-color: #000;
+  background: #fff;
+}
+
+.pc-pdp__swatch-text {
+  font-size: 0.72rem;
+  color: #121212;
+}
+
+/* Add-to-cart form wrapper */
+.pc-pdp__form {
+  margin-top: 1.8rem;
+}
+
+/* CTA button */
+.pc-pdp__cta {
+  box-sizing: border-box;
+  width: 481px;
+  height: 56px;
+  padding: 16px 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #010101;
+  color: #fffffb;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 430;
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-align: center;
+  font-variant-numeric: lining-nums proportional-nums;
+  margin-bottom: 24px;
+}
+
+/* Delivery note */
+.pc-pdp__delivery-note {
+  font-size: 0.75rem;
+  color: #a2a09d;
+  margin-bottom: 1.6rem;
+}
+
+.pc-pdp__delivery-note strong {
+  color: #000;
+  font-weight: 500;
+}
+
+/* Divider under sidebar content */
+.pc-pdp__divider {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  margin: 0;
+}
+
+/* Sidebar width on desktop */
+@media (min-width: 1100px) {
+  .pc-pdp__sidebar {
+    width: 380px;
+    padding-top: 72px;
+  }
+}
+
+/* ---------------------------------------------------------
+   7) PDP – OPTION-SPECIFIC STYLES
+   - Metal / Material tiles
+   - Finish / Polish tiles
+   --------------------------------------------------------- */
+
+/* Metal / Material group layout */
+.pc-pdp__option-group[data-option-name="Metal"],
+.pc-pdp__option-group[data-option-name="Material"] {
+  width: 480px;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pc-pdp__option-group[data-option-name="Metal"] .pc-pdp__swatch-row,
+.pc-pdp__option-group[data-option-name="Material"] .pc-pdp__swatch-row {
+  display: flex;
+  gap: 6px;
+  width: 480px;
+  height: 80px;
+  align-items: stretch;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+
+/* Metal / Material tile look */
+.pc-pdp__option-group[data-option-name="Metal"] .pc-pdp__swatch-tile,
+.pc-pdp__option-group[data-option-name="Material"] .pc-pdp__swatch-tile {
+  width: 64px;
+  height: 80px;
+  background: rgba(29, 15, 7, 0.02);
+  border: none;
+  border-bottom: 1px solid transparent;
+  border-radius: 6px;
+  padding: 16px 14px 20px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pc-pdp__option-group[data-option-name="Metal"] .pc-pdp__swatch-tile.is-active,
+.pc-pdp__option-group[data-option-name="Material"]
+  .pc-pdp__swatch-tile.is-active {
+  background: #fff;
+  border-bottom-color: #010101;
+}
+
+/* Metal dot */
+.pc-pdp__swatch-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 8px;
+  display: inline-block;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.pc-pdp__swatch-dot--fallback {
+  background-color: #d6c196;
+}
+
+/* Finish / Polish groups */
+.pc-pdp__option-group[data-option-name="Finish"],
+.pc-pdp__option-group[data-option-name="Polish"] {
+  width: 100%;
+  margin-top: 28px;
+}
+
+.pc-pdp__option-group[data-option-name="Finish"] .pc-pdp__swatch-row,
+.pc-pdp__option-group[data-option-name="Polish"] .pc-pdp__swatch-row {
+  display: flex;
+  gap: 18px;
+}
+
+/* Finish tile style */
+.pc-pdp__swatch-tile--finish {
+  position: relative;
+  overflow: hidden;
+  width: 116px;
+  height: 154px;
+  border-radius: 12px;
+  background: rgba(29, 15, 7, 0.02);
+  border: none;
+  border-bottom: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+/* Finish image inside tile */
+.pc-pdp__swatch-tile--finish .pc-pdp__finish-thumb {
+  position: absolute;
+  width: 402.33px;
+  height: 396.49px;
+  top: -33.69px;
+  left: -125.69px;
+  transform: rotate(90deg);
+  mix-blend-mode: multiply;
+  background-size: cover;
+  background-position: center;
+  display: block;
+}
+
+.pc-pdp__swatch-tile--finish.is-active {
+  background: #fff;
+  border-bottom-color: #010101;
+}
+
+.pc-pdp__finish-thumb--placeholder {
+  background: #e5e1db;
+}
+
+/* ---------------------------------------------------------
+   8) PDP – INLINE RECOMMENDATIONS (INSIDE SIDEBAR)
+   --------------------------------------------------------- */
+
+/* Container inside sidebar */
+.pc-pdp__sidebar .pc-recos {
+  width: 478px;
+  min-width: 478px;
+  margin-left: auto;
+  padding: 0;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+/* Title */
+.pc-recos__title {
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system;
+  font-weight: 430;
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums proportional-nums;
+  color: #010101;
+  margin: 40px 0 15px 0;
+  width: 100%;
+}
+
+/* Grid layout: 2 columns */
+.pc-recos__grid {
+  width: 478px;
+  display: grid;
+  grid-template-columns: 232px 232px;
+  gap: 14px;
+  box-sizing: border-box;
+  margin: 32px 0 0 0;
+}
+
+/* Item wrapper */
+.pc-recos__item {
+  width: auto;
+}
+
+/* Media block */
+.pc-recos__media {
+  height: 306px;
+  background: #f8f6f3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pc-recos__img {
+  max-width: 82%;
+  max-height: 170px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Meta row (name + fav) */
+.pc-recos__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+/* Product name */
+.pc-recos__name {
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system;
+  font-weight: 430;
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums proportional-nums;
+  color: #010101;
+  margin: 0;
+  text-decoration: none !important;
+}
+
+/* Favourite icon */
+.pc-recos__fav {
+  background: none;
+  border: none;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #010101;
+  cursor: pointer;
+  padding: 0;
+}
+
+.pc-recos__fav .icon-heart,
+.pc-recos__fav .icon.icon-heart {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+/* Price */
+.pc-recos__price {
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system;
+  font-weight: 430;
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums proportional-nums;
+  color: #6b6b6b;
+  margin: 0;
+}
+
+/* Inline recos – mobile adjustments */
+@media (max-width: 1099px) {
+  .pc-pdp__sidebar .pc-recos {
+    width: 100%;
+    min-width: 0;
+    padding: 0 1.25rem;
+  }
+
+  .pc-recos__grid {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+/* ---------------------------------------------------------
+   9) PDP – RECOMMENDATIONS STANDALONE SECTION
+   - .section--pc-recos + .pc-recos
+   --------------------------------------------------------- */
+
+.section--pc-recos {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.section--pc-recos.pc-recos {
+  width: 100%;
+  max-width: 1440px;
+  padding: 0 120px 72px 120px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background: #fff;
+}
+
+/* Right-aligned inner width */
+.section--pc-recos.pc-recos .pc-recos__title,
+.section--pc-recos.pc-recos .pc-recos__grid {
+  width: 478px;
+}
+
+/* 2-column grid */
+.section--pc-recos.pc-recos .pc-recos__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+/* Standalone recos – mobile */
+@media (max-width: 1099px) {
+  .section--pc-recos.pc-recos {
+    padding: 0 1.25rem 3.25rem;
+    align-items: stretch;
+  }
+
+  .section--pc-recos.pc-recos .pc-recos__title,
+  .section--pc-recos.pc-recos .pc-recos__grid {
+    width: 100%;
+  }
+}
+
+/* ---------------------------------------------------------
+   10) BEHIND THE RING – DESKTOP (≥ 1100px)
+   - Two-column layout with hero + right slider + caption
+   --------------------------------------------------------- */
+
+@media (min-width: 1100px) {
+  .pc-behind {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 72px 0 72px;
+    background: #ffffff;
+  }
+
+  .pc-behind__inner {
+    width: 1440px;
+    margin: 0 auto;
+    padding: 120px 80px 72px 120px;
+    box-sizing: border-box;
+  }
+
+  /* Header */
+  .pc-behind__header {
+    margin-bottom: 40px;
+  }
+
+  .pc-behind__eyebrow {
+    margin: 0 0 28px;
+    font-family: "Matter SQ TRIAL", system-ui, -apple-system, sans-serif;
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #010101;
+    opacity: 0.35;
+  }
+
+  .pc-behind__title {
+    margin: 0;
+    font-family: "Amiri", serif;
+    font-weight: 400;
+    font-size: 56px;
+    line-height: 64px;
+    color: #000000;
+  }
+
+  /* Media row: large hero left + stacked right */
+  .pc-behind__media-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 200px;
+  }
+
+  .pc-behind__hero {
+    width: 690px;
+    height: 389px;
+    overflow: hidden;
+  }
+
+  .pc-behind__hero-img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .pc-behind__right {
+    width: 288px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .pc-behind__slides {
+    width: 288px;
+    height: 384px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pc-behind__slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.22s ease-out;
+    background: #ecd9c9;
+  }
+
+  .pc-behind__slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .pc-behind__media {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  /* Caption aligned with right column */
+  .pc-behind__caption {
+    max-width: 288px;
+    margin: -100px 60px 0 auto;
+    font-family: "Matter", system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    line-height: 28px;
+    color: #000000;
+    text-align: left;
+  }
+
+  /* Vertical offset for right slider (per frame) */
+  .pc-behind__slides {
+    transform: translateY(-136px);
+  }
+}
+
+/* ---------------------------------------------------------
+   11) CUSTOMISE – DESKTOP (1440x764)
+   - Two-column layout with left copy + right carousel
+   --------------------------------------------------------- */
+
+.pc-customise {
+  width: 100%;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+}
+
+.pc-customise__inner {
+  width: 1440px;
+  height: 764px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 72px 80px 72px 120px;
+  box-sizing: border-box;
+  gap: 40px;
+}
+
+/* Left column */
+.pc-customise__left {
+  width: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pc-customise__eyebrow {
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+.pc-customise__title {
+  font-family: "Amiri", serif;
+  font-weight: 400;
+  font-size: 56px;
+  line-height: 64px;
+  color: #000;
+  margin-bottom: 90px;
+}
+
+/* Text + button alignment */
+.pc-customise__text {
+  max-width: 284px;
+  font-family: "Matter", system-ui, -apple-system;
+  font-size: 14px;
+  line-height: 28px;
+  color: #000;
+  margin-bottom: 40px;
+  margin-left: 203px;
+}
+
+.pc-customise__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 162px;
+  height: 56px;
+  padding: 16px 40px;
+  margin-left: 203px;
+  background: rgba(29, 15, 7, 0.02);
+  backdrop-filter: blur(28px);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  border-radius: 0;
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #010101;
+  text-decoration: none;
+  line-height: 1;
+}
+
+/* Right column / carousel */
+.pc-customise__right {
+  width: 491px;
+  height: 652px;
+  background: #f3f0eb;
+  border-radius: 0;
+  position: relative;
+  margin-top: -16px;
+}
+
+.pc-customise__carousel {
+  width: 491px;
+  height: 652px;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+
+.pc-customise__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pc-customise__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pc-customise__media {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Carousel dots */
+.pc-customise__dots {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.pc-customise__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.pc-customise__dot.is-active {
+  background: #000;
+}
+
+/* ---------------------------------------------------------
+   12) GLOBAL MOBILE OVERRIDES (≤ 1099px)
+   - PDP, Behind, Customise, Recos
+   --------------------------------------------------------- */
+
+@media (max-width: 1099px) {
+  /* Prevent horizontal overflow */
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .template-product .page-width,
+  .template-product .page-width-narrow,
+  .template-product .page-width--narrow,
+  .template-product .page-width--content,
+  .template-product .shopify-section {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .pc-pdp,
+  .pc-behind,
+  .pc-customise,
+  .section--pc-recos {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  /* ---------- PDP – MOBILE WRAPPER ---------- */
+
+  .pc-pdp {
+    padding: 0 0 32px;
+    background: #fff;
+  }
+
+  .pc-pdp__inner {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    box-sizing: border-box;
+  }
+
+  /* Remove beige background on mobile */
+  .pc-pdp::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* GALLERY – single image view, centered */
+  .pc-pdp__media-col {
+    width: 100%;
+    max-width: 100%;
+    height: 448px;
+    margin: 0 auto;
+    overflow: hidden;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+  }
+
+  .pc-pdp__media-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pc-pdp__media-item {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .pc-pdp__media-item.is-active {
+    display: flex;
+  }
+
+  .pc-pdp__media-frame img,
+  .pc-pdp__media-frame video {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Hide arrows (mobile uses swipe) */
+  .pc-pdp__media-prev,
+  .pc-pdp__media-next {
+    display: none !important;
+  }
+
+  /* Media counter below gallery (mobile) */
+  .pc-pdp__media-count {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    display: block;
+    width: 100%;
+    margin: 8px 0 0;
+    text-align: center;
+    font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system,
+      "Segoe UI", sans-serif;
+    font-weight: 430;
+    font-style: normal;
+    font-size: 12px;
+    line-height: 24px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-variant-numeric: lining-nums proportional-nums;
+    color: #010101;
+  }
+
+  /* SIDEBAR – mobile card */
+  .pc-pdp__sidebar {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 8px;
+    padding: 40px 20px 0 20px;
+    box-sizing: border-box;
+    border-radius: 24px 24px 0 0;
+    background: #ffffff;
+    box-shadow: 0 -8px 26px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pc-pdp__eyebrow {
+    margin-bottom: 2px;
+    font-size: 10px;
+    line-height: 18px;
+    letter-spacing: 0.2em;
+  }
+
+  .pc-pdp__title {
+    font-size: 20px;
+    line-height: 26px;
+    margin: 0 0 4px;
+  }
+
+  .pc-pdp__price-lead {
+    font-size: 14px;
+    line-height: 22px;
+    margin: 0 0 12px;
+  }
+
+  .pc-pdp__option-group {
+    margin-bottom: 24px;
+    gap: 8px;
+  }
+
+  .pc-pdp__option-header {
+    margin: 24px 0 4px;
+    gap: 6px;
+  }
+
+  .pc-pdp__option-label,
+  .pc-pdp__option-current {
+    font-size: 12px;
+    line-height: 20px;
+  }
+
+  .pc-pdp__swatch-row {
+    gap: 6px;
+    margin-bottom: 0;
+  }
+
+  .pc-pdp__swatch-tile {
+    min-width: 64px;
+    min-height: 40px;
+  }
+
+  /* CTA – centered, fixed width max */
+  .pc-pdp__cta {
+    width: 100%;
+    max-width: 335px;
+    height: 56px;
+    margin: 24px auto 16px auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: #010101;
+    color: #fff;
+    border: none;
+    text-transform: uppercase;
+    font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system,
+      "Segoe UI", sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+  }
+
+  .pc-pdp__delivery-note {
+    font-size: 11px;
+    line-height: 18px;
+    margin-bottom: 16px;
+  }
+
+  /* Inline recos inside sidebar – mobile */
+  .pc-pdp__sidebar .pc-recos {
+    width: 100%;
+    min-width: 0;
+    margin-top: 24px;
+    padding: 0;
+  }
+
+  .pc-pdp__sidebar .pc-recos__grid {
+    width: 100%;
+    margin-top: 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .pc-pdp__sidebar .pc-recos__media {
+    height: 220px;
+  }
+
+  /* ---------- BEHIND THE RING – MOBILE (≤ 1099px) ----------
+     (Structured per frame: header, staggered images, centered caption)
+     NOTE: This @media is nested in original source and preserved as-is.
+  */
+
+  @media (max-width: 1099px) {
+    .pc-behind {
+      padding: 40px 0;
+      background: #fff;
+      min-height: 548px;
+    }
+
+    .pc-behind__inner {
+      max-width: 375px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+      box-sizing: border-box;
+    }
+
+    .pc-behind__header {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+
+    .pc-behind__eyebrow {
+      margin: 0 0 19px;
+      font-family: "Matter SQ TRIAL", system-ui, -apple-system, sans-serif;
+      font-size: 12px;
+      line-height: 24px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #010101;
+      opacity: 0.35;
+    }
+
+    .pc-behind__title {
+      margin: 0;
+      font-family: "Amiri", serif;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 40px;
+      color: #000;
+    }
+
+    /* Two images side by side (hero left higher, right lower) */
+    .pc-behind__media-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      margin-top: 39px;
+    }
+
+    .pc-behind__hero {
+      width: 100%;
+      height: 210px;
+      overflow: hidden;
+    }
+
+    .pc-behind__hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .pc-behind__right {
+      width: 100%;
+      height: 210px;
+      margin-top: 32px;
+    }
+
+    .pc-behind__slides {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pc-behind__slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease-out;
+    }
+
+    .pc-behind__slide.is-active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .pc-behind__media {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Caption centered under both images */
+    .pc-behind__caption {
+      width: 100%;
+      max-width: 375px;
+      margin: 0 auto;
+      box-sizing: border-box;
+      font-size: 14px;
+      line-height: 24px;
+      color: #000;
+      text-align: center;
+    }
+  }
+
+  /* ---------- CUSTOMISE – MOBILE STACKED ---------- */
+
+  .pc-customise {
+    padding: 32px 0 40px;
+  }
+
+  .pc-customise__inner {
+    width: 100%;
+    height: auto;
+    padding: 0 20px;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+  }
+
+  .pc-customise__left,
+  .pc-customise__right {
+    width: 100%;
+  }
+
+  .pc-customise__title {
+    font-size: 32px;
+    line-height: 38px;
+    margin-bottom: 16px;
+  }
+
+  .pc-customise__text {
+    margin-left: 0;
+    margin-bottom: 16px;
+    max-width: 100%;
+  }
+
+  .pc-customise__btn {
+    margin-left: 0;
+  }
+
+  .pc-customise__right {
+    height: 360px;
+  }
+
+  .pc-customise__carousel {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* =========================================
+   CUSTOMISE – MOBILE (≤ 1099px)
+   Image first, content after (explicit order)
+   ========================================= */
+
+@media (max-width: 1099px) {
+  .pc-customise {
+    width: 100%;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+  }
+
+  .pc-customise__inner {
+    width: 100%;
+    max-width: 375px;
+    margin: 0 auto;
+    padding: 32px 20px 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Carousel first */
+  .pc-customise__right {
+    order: 1;
+    width: 100%;
+    height: 360px;
+    margin: 0;
+  }
+
+  .pc-customise__carousel {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Copy second */
+  .pc-customise__left {
+    order: 2;
+    width: 100%;
+  }
+
+  .pc-customise__eyebrow {
+    margin-bottom: 20px;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .pc-customise__title {
+    font-size: 28px;
+    line-height: 34px;
+    margin: 0 0 20px;
+  }
+
+  .pc-customise__text {
+    margin: 0 0 40px;
+    max-width: 100%;
+    font-size: 14px;
+    line-height: 24px;
+  }
+
+  .pc-customise__btn {
+    margin: 0;
+  }
+}

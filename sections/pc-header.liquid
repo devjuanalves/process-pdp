@@ -1,0 +1,281 @@
+{{ 'pc-header.css' | asset_url | stylesheet_tag }}
+
+<header class="pc-header">
+  <div class="pc-header__bar">
+    {%- comment -%} Botão hambúrguer (mobile) {%- endcomment -%}
+    <button
+      class="pc-header__menu-btn"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="pc-mobile-menu"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <g clip-path="url(#clip0_0_219)">
+          <path
+            d="M3.75 15H20.25"
+            stroke="#010101"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M3.75 9H20.25"
+            stroke="#010101"
+            stroke-linecap="square"
+            stroke-linejoin="round"
+          />
+        </g>
+        <defs>
+          <clipPath id="clip0_0_219">
+            <rect width="24" height="24" fill="white" />
+          </clipPath>
+        </defs>
+      </svg>
+    </button>
+
+    {%- comment -%} Logo {%- endcomment -%}
+    <a
+      href="{{ routes.root_url }}"
+      class="pc-header__logo"
+      aria-label="{{ shop.name }}"
+    >
+      <img
+        src="{{ 'process_1.png' | asset_url }}"
+        alt="{{ shop.name }}"
+        class="pc-header__logo-img"
+        loading="eager"
+      >
+    </a>
+
+    {%- comment -%} Navegação desktop {%- endcomment -%}
+    <nav class="pc-header__nav" aria-label="Main navigation">
+      <a href="/collections/engagement" class="pc-header__link">Engagement</a>
+      <a href="/collections/wedding" class="pc-header__link">Wedding</a>
+      <a href="/collections/jewellery" class="pc-header__link">Jewellery</a>
+      <a href="/pages/discover" class="pc-header__link">Discover</a>
+    </nav>
+
+    {%- comment -%} Ações (icons) {%- endcomment -%}
+    <div class="pc-header__actions">
+      <!-- search -->
+      <a
+        href="/search"
+        class="pc-header__icon"
+        aria-label="{{ 'general.search.search' | t }}"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <circle
+            cx="11"
+            cy="11"
+            r="5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+          />
+          <line
+            x1="16"
+            y1="16"
+            x2="20"
+            y2="20"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </a>
+
+      <!-- account -->
+      <a
+        href="{{ routes.account_url }}"
+        class="pc-header__icon"
+        aria-label="Account"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <circle
+            cx="12"
+            cy="8"
+            r="3"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+          />
+          <path
+            d="M5 20c1.4-3 3.8-4.5 7-4.5s5.6 1.5 7 4.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </a>
+
+      <!-- wishlist -->
+      <button
+        type="button"
+        class="pc-header__icon"
+        aria-label="Wishlist"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M12 20s-5.5-3.3-7.7-6.6C2.4 10.7 3 7.4 5.1 5.8 7.2 4.2 9.8 5 12 7.5 14.2 5 16.8 4.2 18.9 5.8c2.1 1.6 2.7 4.9 0.7 7.6C17.5 16.7 12 20 12 20z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.15"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </button>
+
+      <!-- cart -->
+      <a
+        href="{{ routes.cart_url }}"
+        class="pc-header__icon pc-header__icon--cart"
+        aria-label="Cart"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <g clip-path="url(#clip0_0_215)">
+            <path
+              d="M17.5391 7H6.46093C6.28805 6.99998 6.12113 7.06164 5.99159 7.17337C5.86205 7.2851 5.77882 7.43919 5.75759 7.60664L4.50477 19.7337C4.49318 19.8304 4.50276 19.9283 4.53288 20.021C4.563 20.1137 4.61297 20.1991 4.67947 20.2716C4.74598 20.344 4.8275 20.4019 4.91864 20.4412C5.00977 20.4806 5.10844 20.5006 5.20811 20.5H18.7919C18.8916 20.5006 18.9902 20.4806 19.0814 20.4412C19.1725 20.4019 19.254 20.344 19.3205 20.2716C19.387 20.1991 19.437 20.1137 19.4671 20.021C19.4972 19.9283 19.5068 19.8304 19.4952 19.7337L18.2424 7.60664C18.2212 7.43919 18.138 7.2851 18.0084 7.17337C17.8789 7.06164 17.712 6.99998 17.5391 7Z"
+              stroke="#010101"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M9 7V6.75C9 5.75544 9.34241 4.80161 9.9519 4.09835C10.5614 3.39509 11.388 3 12.25 3C13.112 3 13.9386 3.39509 14.5481 4.09835C15.1576 4.80161 15.5 5.75544 15.5 6.75V7"
+              stroke="#010101"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </g>
+          <defs>
+            <clipPath id="clip0_0_215">
+              <rect width="24" height="24" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  {%- comment -%} Drawer mobile (usa o mesmo menu, versão coluna) {%- endcomment -%}
+  <div class="pc-header__drawer" id="pc-mobile-menu">
+    <div class="pc-header__drawer-overlay" data-pc-menu-close></div>
+    <nav class="pc-header__drawer-panel" aria-label="Mobile navigation">
+      <button
+        type="button"
+        class="pc-header__drawer-close"
+        aria-label="Close menu"
+        data-pc-menu-close
+      >
+        ×
+      </button>
+      <ul class="pc-header__drawer-list">
+        <li><a href="/collections/engagement" class="pc-header__drawer-link">Engagement</a></li>
+        <li><a href="/collections/wedding" class="pc-header__drawer-link">Wedding</a></li>
+        <li><a href="/collections/jewellery" class="pc-header__drawer-link">Jewellery</a></li>
+        <li><a href="/pages/discover" class="pc-header__drawer-link">Discover</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  (function() {
+    const header = document.querySelector('.pc-header');
+    if (!header) return;
+
+    const toggleBtn = header.querySelector('.pc-header__menu-btn');
+    const drawer = header.querySelector('#pc-mobile-menu');
+    const overlay = drawer && drawer.querySelector('.pc-header__drawer-overlay');
+    const closeButtons = drawer && drawer.querySelectorAll('[data-pc-menu-close]');
+    const links = drawer && drawer.querySelectorAll('.pc-header__drawer-link');
+
+    if (!toggleBtn || !drawer) return;
+
+    const openDrawer = () => {
+      drawer.classList.add('is-open');
+      document.documentElement.classList.add('pc-menu-open');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+    };
+
+    const closeDrawer = () => {
+      drawer.classList.remove('is-open');
+      document.documentElement.classList.remove('pc-menu-open');
+      toggleBtn.setAttribute('aria-expanded', 'false');
+    };
+
+    toggleBtn.addEventListener('click', () => {
+      if (drawer.classList.contains('is-open')) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    });
+
+    if (overlay) {
+      overlay.addEventListener('click', closeDrawer);
+    }
+
+    if (closeButtons) {
+      closeButtons.forEach(btn => {
+        btn.addEventListener('click', closeDrawer);
+      });
+    }
+
+    if (links) {
+      links.forEach(link => {
+        link.addEventListener('click', closeDrawer);
+      });
+    }
+
+    document.addEventListener('keyup', (event) => {
+      if (event.key === 'Escape' && drawer.classList.contains('is-open')) {
+        closeDrawer();
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header – Process",
+  "tag": "header",
+  "class": "header-section",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,139 @@
+{% comment %}
+  Section: PDP – Behind the ring
+  - Left: eyebrow, title, hero image
+  - Right: secondary media slider (image/video)
+  - Caption below both columns
+{% endcomment %}
+
+<section class="pc-behind" id="behind-the-ring" data-section-id="{{ section.id }}">
+  <div class="pc-behind__inner">
+    {% comment %} HEADER: Eyebrow + Title {% endcomment %}
+    <div class="pc-behind__header">
+      <p class="pc-behind__eyebrow">
+        {{ section.settings.eyebrow | default: 'Behind the ring' }}
+      </p>
+
+      <h2 class="pc-behind__title">
+        {{ section.settings.heading | default: 'Timeless Elegance' }}
+      </h2>
+    </div>
+
+    {% comment %} MEDIA ROW: Hero (left) + Slider (right) {% endcomment %}
+    <div class="pc-behind__media-row">
+      {% comment %} LEFT: Hero image {% endcomment %}
+      <div class="pc-behind__hero">
+        {% if section.settings.hero_image != blank %}
+          <img
+            src="{{ section.settings.hero_image | image_url: width: 1400 }}"
+            alt="{{ section.settings.heading | default: 'Behind the ring' | escape }}"
+            class="pc-behind__hero-img"
+            loading="lazy"
+          >
+        {% else %}
+          {{ 'image' | placeholder_svg_tag }}
+        {% endif %}
+      </div>
+
+      {% comment %} RIGHT: Slider (image or video) {% endcomment %}
+      <div class="pc-behind__right">
+        <div class="pc-behind__slides" data-behind-slider>
+          {% comment %} Slide 1 {% endcomment %}
+          <div class="pc-behind__slide is-active" data-behind-slide aria-hidden="false">
+            {% if section.settings.side_image_1 != blank %}
+              <img
+                src="{{ section.settings.side_image_1 | image_url: width: 700 }}"
+                alt="Behind ring detail 1"
+                class="pc-behind__media"
+                loading="lazy"
+              >
+            {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+            {% endif %}
+          </div>
+
+          {% comment %} Slide 2 {% endcomment %}
+          <div class="pc-behind__slide" data-behind-slide aria-hidden="true">
+            {% if section.settings.side_image_2 != blank and section.settings.side_video_2 == blank %}
+              <img
+                src="{{ section.settings.side_image_2 | image_url: width: 700 }}"
+                alt="Behind ring detail 2"
+                class="pc-behind__media"
+                loading="lazy"
+              >
+            {% elsif section.settings.side_video_2 != blank %}
+              <video
+                class="pc-behind__media"
+                src="{{ section.settings.side_video_2 }}"
+                autoplay
+                loop
+                muted
+                playsinline
+                aria-label="Behind ring video 2"
+              ></video>
+            {% else %}
+              {{ 'image' | placeholder_svg_tag }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} CAPTION: Full width under both columns {% endcomment %}
+    <p class="pc-behind__caption">
+      {{ section.settings.caption | default: "Our most coveted engagement ring silhouette. The Ceremonial Solitaire showcases a dazzling oval diamond in a minimal basket setting." }}
+    </p>
+  </div>
+
+  
+</section>
+
+{% schema %}
+{
+  "name": "PDP – Behind the ring",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Behind the ring"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Title",
+      "default": "Timeless Elegance"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Big left image (690x389)"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image_1",
+      "label": "Right image 1 (288x384)"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image_2",
+      "label": "Right image 2 (288x384)"
+    },
+    {
+      "type": "url",
+      "id": "side_video_2",
+      "label": "Right video 2 (optional – overrides image 2)"
+    },
+    {
+      "type": "textarea",
+      "id": "caption",
+      "label": "Caption text",
+      "default": "Our most coveted engagement ring silhouette. The Ceremonial Solitaire showcases a dazzling oval diamond in a minimal basket setting."
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP – Behind the ring"
+    }
+  ]
+}
+{% endschema %}

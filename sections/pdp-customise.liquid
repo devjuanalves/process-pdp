@@ -1,0 +1,150 @@
+{% comment %}
+  Section: PDP – Customise
+
+  Layout: 1440 x 764
+  - Left column: eyebrow, title, text, button
+  - Right column: 491 x 652 carousel with auto-advance
+
+  Implementation notes:
+  - Do not modify setting IDs (image_1, image_2, image_3).
+  - JavaScript is scoped to this section via [data-section-id].
+{% endcomment %}
+
+<section class="pc-customise" data-section-id="{{ section.id }}">
+  <div class="pc-customise__inner">
+    {% comment %} LEFT COLUMN {% endcomment %}
+    <div class="pc-customise__left">
+      {% if section.settings.eyebrow != blank %}
+        <p class="pc-customise__eyebrow">
+          {{ section.settings.eyebrow }}
+        </p>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="pc-customise__title">
+          {{ section.settings.heading }}
+        </h2>
+      {% endif %}
+
+      {% if section.settings.text != blank %}
+        <div class="pc-customise__text">
+          {{ section.settings.text }}
+        </div>
+      {% endif %}
+
+      {% if section.settings.button_label != blank %}
+        <a
+          {% if section.settings.button_url != blank %}
+            href="{{ section.settings.button_url }}"
+          {% else %}
+            href="#"
+          {% endif %}
+          class="pc-customise__btn"
+        >
+          {{ section.settings.button_label }}
+        </a>
+      {% endif %}
+    </div>
+
+    {% comment %} RIGHT COLUMN / CAROUSEL {% endcomment %}
+    <div class="pc-customise__right">
+      <div class="pc-customise__carousel" data-carousel>
+        {% assign slides = 0 %}
+
+        {% if section.settings.image_1 != blank %}
+          {% assign slides = slides | plus: 1 %}
+          <div class="pc-customise__slide is-active">
+            {{ section.settings.image_1
+              | image_url: width: 1000
+              | image_tag: class: 'pc-customise__media', loading: 'lazy'
+            }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.image_2 != blank %}
+          {% assign slides = slides | plus: 1 %}
+          <div class="pc-customise__slide">
+            {{ section.settings.image_2
+              | image_url: width: 1000
+              | image_tag: class: 'pc-customise__media', loading: 'lazy'
+            }}
+          </div>
+        {% endif %}
+
+        {% if section.settings.image_3 != blank %}
+          {% assign slides = slides | plus: 1 %}
+          <div class="pc-customise__slide">
+            {{ section.settings.image_3
+              | image_url: width: 1000
+              | image_tag: class: 'pc-customise__media', loading: 'lazy'
+            }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %}
+        Optional navigation dots (structure can be added here if needed).
+        Only makes sense when there is more than one slide.
+      {% endcomment %}
+      {% if slides > 1 %}
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP – Customise",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Customise"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Add<br>your<br>personal touch"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Create your dream engagement ring with our Bespoke Ring Builder. Tailor each element to suit your personal preferences.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Customise"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1 (491x652)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    }
+  ],
+  "presets": [
+    {
+      "name": "PDP – Customise"
+    }
+  ]
+}
+{% endschema %}

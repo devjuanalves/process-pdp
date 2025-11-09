@@ -1,0 +1,315 @@
+/* ================================
+   HEADER BASE (desktop / default)
+   ================================ */
+
+.pc-header {
+  position: relative;
+  z-index: 100;
+  background: transparent;
+  width: 100%;
+}
+
+.pc-header__bar {
+  width: 100%;
+  max-width: 1440px;
+  height: 68px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Logo (desktop) */
+.pc-header__logo {
+  position: absolute;
+  top: 14px;
+  left: 23px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.pc-header__logo-img {
+  width: 112px;
+  height: 52px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Center navigation (desktop) */
+.pc-header__nav {
+  position: absolute;
+  top: 22px;
+  left: 495px;
+  width: 449px;
+  height: 24px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pc-header__link {
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 430;
+  font-size: 12px;
+  line-height: 24px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-variant-numeric: lining-nums proportional-nums;
+  color: #000;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pc-header__link:hover {
+  opacity: 0.6;
+}
+
+/* Right-side icons (desktop) */
+.pc-header__actions {
+  position: absolute;
+  top: 22px;
+  left: 1208px;
+  width: 192px;
+  height: 24px;
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.pc-header__icon {
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+
+.pc-header__icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  transition: opacity 0.25s ease;
+}
+
+.pc-header__icon:hover svg {
+  opacity: 0.6;
+}
+
+/* Menu button (hidden on desktop) */
+.pc-header__menu-btn {
+  display: none;
+}
+
+/* ================================
+   MOBILE (up to 749px)
+   ================================ */
+
+@media (max-width: 749px) {
+  .pc-header {
+    background: #ffffff;
+  }
+
+  .pc-header__bar {
+    position: relative;
+    max-width: 100%;
+    height: 72px;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide desktop navigation */
+  .pc-header__nav {
+    display: none !important;
+  }
+
+  /* Hamburger menu (left) */
+  .pc-header__menu-btn {
+    display: inline-flex;
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    padding: 0;
+    color: #010101;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 200;
+  }
+
+  .pc-header__menu-btn svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+    stroke-width: 1.2;
+  }
+
+  /* Centered logo */
+  .pc-header__logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .pc-header__logo-img {
+    width: 82px;
+    height: 38px;
+    object-fit: contain;
+  }
+
+  /* Right-side actions (only cart visible) */
+  .pc-header__actions {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: auto;
+    width: auto;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0;
+  }
+
+  .pc-header__actions .pc-header__icon {
+    display: none !important;
+  }
+
+  .pc-header__actions .pc-header__icon--cart {
+    display: inline-flex !important;
+    width: 28px;
+    height: 28px;
+    padding: 6px;
+    margin: -6px 0;
+  }
+
+  .pc-header__actions .pc-header__icon--cart svg {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* ================================
+   MOBILE DRAWER
+   ================================ */
+
+.pc-header__drawer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+  z-index: 180;
+}
+
+.pc-header__drawer.is-open {
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.pc-header__drawer-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.pc-header__drawer-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80%;
+  max-width: 320px;
+  height: 100%;
+  background: #ffffff;
+  padding: 24px 24px 32px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.18);
+  transform: translateX(-100%);
+  transition: transform 0.22s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.pc-header__drawer.is-open .pc-header__drawer-panel {
+  transform: translateX(0);
+}
+
+.pc-header__drawer-close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  color: #010101;
+}
+
+.pc-header__drawer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pc-header__drawer-link {
+  font-family: "Matter SQ TRIAL", "Matter", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 430;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #010101;
+  text-decoration: none;
+}
+
+.pc-header__drawer-link:hover {
+  opacity: 0.6;
+}
+
+@media (min-width: 750px) {
+  .pc-header__drawer {
+    display: none;
+  }
+}
+
+/* =========================================================
+   OVERRIDES FOR DEFAULT THEME WRAPPER WHEN USING .pc-header
+   ========================================================= */
+
+body:has(.pc-header) #header-group {
+  margin: 0;
+  padding: 0;
+}
+
+body:has(.pc-header) #header-group .header-section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+body:has(.pc-header) {
+  --transparent-header-offset-boolean: 0;
+}
+
+body:has(.pc-header) .pc-header {
+  z-index: 300;
+}

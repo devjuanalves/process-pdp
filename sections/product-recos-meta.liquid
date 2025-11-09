@@ -1,0 +1,175 @@
+{% comment %}
+  Section: product-recos-meta
+
+  Purpose:
+  - Render PDP recommendations with the following priority:
+    1 product.metafields.custom.recommended_products (list of product references)
+    2 Fallback: first product collection (excluding the current product)
+
+  Implementation notes:
+  - Product name + wishlist icon + price are rendered outside the image block.
+  - Images are lazy-loaded and fall back to a placeholder when missing.
+{% endcomment %}
+
+{%- assign metafield_recos = product.metafields.custom.recommended_products -%}
+{%- assign fallback_collection = product.collections | first -%}
+
+{%- if metafield_recos != blank -%}
+  <section class="pc-recos section--pc-recos">
+    <header class="pc-recos__header">
+      <h2 class="pc-recos__title">
+        {{ section.settings.heading }}
+      </h2>
+    </header>
+
+    <div class="pc-recos__grid">
+      {%- for rec_product in metafield_recos.value -%}
+        <article class="pc-recos__item">
+          {% comment %} Image block (linked to product) {% endcomment %}
+          <a
+            href="{{ rec_product.url }}"
+            class="pc-recos__link"
+            aria-label="{{ rec_product.title }}"
+          >
+            <div class="pc-recos__media">
+              {%- if rec_product.featured_image -%}
+                <img
+                  src="{{ rec_product.featured_image | image_url: width: 700 }}"
+                  alt="{{ rec_product.title | escape }}"
+                  class="pc-recos__img"
+                  loading="lazy"
+                >
+              {%- else -%}
+                {{ 'image' | placeholder_svg_tag }}
+              {%- endif -%}
+            </div>
+          </a>
+
+          {% comment %} Meta row: product name (left) + wishlist icon (right) {% endcomment %}
+          <div class="pc-recos__meta">
+            <a class="pc-recos__name" href="{{ rec_product.url }}">
+              {{ rec_product.title }}
+            </a>
+            <button
+              class="pc-recos__fav"
+              type="button"
+              aria-label="Add to favourites"
+            >
+              <svg
+                class="icon icon-heart"
+                viewBox="0 0 20 20"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M9.99992 17.0833C-5.83341 8.33332 4.16659 1.66666 9.16659 6.24999C14.1666 1.66666 24.1666 8.33332 9.99992 17.0833Z"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </svg>
+            </button>
+          </div>
+
+          {% comment %} Price (separate line below meta) {% endcomment %}
+          {%- if rec_product.price -%}
+            <div class="pc-recos__price">
+              {{ rec_product.price | money_without_trailing_zeros }}
+            </div>
+          {%- endif -%}
+        </article>
+      {%- endfor -%}
+    </div>
+  </section>
+
+{%- elsif fallback_collection and fallback_collection.products_count > 0 -%}
+  <section class="pc-recos section--pc-recos">
+    <header class="pc-recos__header">
+      <h2 class="pc-recos__title">
+        {{ section.settings.heading }}
+      </h2>
+    </header>
+
+    <div class="pc-recos__grid">
+      {%- assign shown = 0 -%}
+      {%- for rec_product in fallback_collection.products -%}
+        {%- if rec_product.id != product.id -%}
+          <article class="pc-recos__item">
+            {% comment %} Image block (linked to product) {% endcomment %}
+            <a
+              href="{{ rec_product.url }}"
+              class="pc-recos__link"
+              aria-label="{{ rec_product.title }}"
+            >
+              <div class="pc-recos__media">
+                {%- if rec_product.featured_image -%}
+                  <img
+                    src="{{ rec_product.featured_image | image_url: width: 700 }}"
+                    alt="{{ rec_product.featured_image.alt | escape }}"
+                    class="pc-recos__img"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag }}
+                {%- endif -%}
+              </div>
+            </a>
+
+            {% comment %} Meta row: product name + wishlist icon {% endcomment %}
+            <div class="pc-recos__meta">
+              <a class="pc-recos__name" href="{{ rec_product.url }}">
+                {{ rec_product.title }}
+              </a>
+              <button
+                class="pc-recos__fav"
+                type="button"
+                aria-label="Add to favourites"
+              >
+                <svg
+                  class="icon icon-heart"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M9.99992 17.0833C-5.83341 8.33332 4.16659 1.66666 9.16659 6.24999C14.1666 1.66666 24.1666 8.33332 9.99992 17.0833Z"
+                    stroke="currentColor"
+                    stroke-width="1.1"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></path>
+                </svg>
+              </button>
+            </div>
+
+            {% comment %} Price {% endcomment %}
+            <div class="pc-recos__price">
+              {{ rec_product.price | money_without_trailing_zeros }}
+            </div>
+          </article>
+
+          {%- assign shown = shown | plus: 1 -%}
+          {%- if shown >= 2 -%}
+            {%- break -%}
+          {%- endif -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "PDP recos",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Explore the cuff collection"
+    }
+  ]
+}
+{% endschema %}
+

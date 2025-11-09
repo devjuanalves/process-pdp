@@ -1,0 +1,213 @@
+{% comment %}
+  Section: main-product-process
+  - Custom PDP layout for Process.
+  - Left: product media gallery.
+  - Right: title, price, options, CTA, and delivery note.
+{% endcomment %}
+
+{{ 'pdp-process.css' | asset_url | stylesheet_tag }}
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<section class="pc-pdp" data-section-id="{{ section.id }}">
+  <div class="pc-pdp__inner">
+    {% comment %} LEFT: Media gallery {% endcomment %}
+    <div class="pc-pdp__media-col" data-media-total="{{ product.media.size }}">
+      {% if product.media.size > 0 %}
+        <div class="pc-pdp__media-frame">
+          {% for media in product.media %}
+            <div
+              class="pc-pdp__media-item{% if forloop.first %} is-active{% endif %}"
+              data-media-index="{{ forloop.index0 }}"
+            >
+              {{ media | media_tag: image_size: "1500x", loading: "lazy" }}
+            </div>
+          {% endfor %}
+        </div>
+
+        {% if product.media.size > 1 %}
+          {% comment %}
+            Optional previous arrow.
+            To enable on desktop, uncomment the button below.
+          {% endcomment %}
+          {#
+          <button
+            class="pc-pdp__media-prev"
+            type="button"
+            aria-label="Previous media"
+          >
+            ‹
+          </button>
+          #}
+
+          <button
+            class="pc-pdp__media-next"
+            type="button"
+            aria-label="Next media"
+          >
+            ›
+          </button>
+
+          <p class="pc-pdp__media-count">
+            <span class="pc-pdp__media-current">1</span>/<span class="pc-pdp__media-total">{{ product.media.size }}</span>
+          </p>
+        {% endif %}
+      {% else %}
+        <div class="pc-pdp__media-placeholder">
+          {{ 'image' | placeholder_svg_tag }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} RIGHT: Product information + options + CTA {% endcomment %}
+    <div class="pc-pdp__sidebar">
+      {% if section.settings.show_eyebrow %}
+        <p class="pc-pdp__eyebrow">Made to order</p>
+      {% endif %}
+
+      <h1 class="pc-pdp__title">{{ product.title }}</h1>
+
+      <p class="pc-pdp__price-lead">
+        From {{ product.price | money }}
+      </p>
+
+      {% comment %} Product options & swatches {% endcomment %}
+      {% if product.options_with_values.size > 0 %}
+        {% for option in product.options_with_values %}
+          {% assign idx = option.position | minus: 1 %}
+          {% assign opt_name = option.name | downcase %}
+
+          <div
+            class="pc-pdp__option-group"
+            data-option-name="{{ option.name | escape }}"
+            data-option-position="{{ option.position }}"
+          >
+            <div class="pc-pdp__option-header">
+              <span class="pc-pdp__option-label">{{ option.name }}</span>
+              {% if option.selected_value %}
+                <span class="pc-pdp__option-current">{{ option.selected_value }}</span>
+              {% else %}
+                <span class="pc-pdp__option-current"></span>
+              {% endif %}
+            </div>
+
+            <div class="pc-pdp__swatch-row{% if opt_name contains 'finish' or opt_name contains 'polish' %} pc-pdp__swatch-row--finish{% endif %}">
+              {% for value in option.values %}
+                {% assign is_selected = option.selected_value == value %}
+                {% assign metal_dot_url = '' %}
+                {% assign finish_tile_url = '' %}
+
+                {% comment %}
+                  Normalize option value to match variant option values
+                  for metafield / image lookup (e.g. "14 K" → "14k").
+                {% endcomment %}
+                {% assign normalized_value = value | downcase | strip | replace: ' ', '' %}
+
+                {% for v in product.variants %}
+                  {% assign vopt = v.options[idx] | downcase | strip | replace: ' ', '' %}
+                  {% if vopt == normalized_value %}
+                    {% if opt_name contains 'metal' or opt_name contains 'material' %}
+                      {% if v.metafields.custom.metal_dot_image %}
+                        {% assign md = v.metafields.custom.metal_dot_image %}
+                        {% if md.preview_image %}
+                          {% assign metal_dot_url = md.preview_image | image_url: width: 48 %}
+                        {% else %}
+                          {% assign metal_dot_url = md | image_url: width: 48 %}
+                        {% endif %}
+                      {% endif %}
+                    {% elsif opt_name contains 'finish' or opt_name contains 'polish' %}
+                      {% if v.metafields.custom.finish_tile_image %}
+                        {% assign ft = v.metafields.custom.finish_tile_image %}
+                        {% if ft.preview_image %}
+                          {% assign finish_tile_url = ft.preview_image | image_url: width: 900 %}
+                        {% else %}
+                          {% assign finish_tile_url = ft | image_url: width: 900 %}
+                        {% endif %}
+                      {% elsif v.image %}
+                        {% assign finish_tile_url = v.image | image_url: width: 900 %}
+                      {% endif %}
+                    {% endif %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+
+                <button
+                  type="button"
+                  class="pc-pdp__swatch-tile{% if is_selected %} is-active{% endif %}{% if opt_name contains 'finish' or opt_name contains 'polish' %} pc-pdp__swatch-tile--finish{% endif %}"
+                  data-option-value="{{ value | escape }}"
+                >
+                  {% if opt_name contains 'metal' or opt_name contains 'material' %}
+                    <span class="pc-pdp__swatch-text">{{ value }}</span>
+                    {% if metal_dot_url != '' %}
+                      <span
+                        class="pc-pdp__swatch-dot"
+                        style="background-image:url({{ metal_dot_url }});"
+                      ></span>
+                    {% else %}
+                      <span class="pc-pdp__swatch-dot pc-pdp__swatch-dot--fallback"></span>
+                    {% endif %}
+                  {% elsif opt_name contains 'finish' or opt_name contains 'polish' %}
+                    <span
+                      class="pc-pdp__finish-thumb"
+                      {% if finish_tile_url != '' %}
+                        style="background-image:url({{ finish_tile_url }});"
+                      {% endif %}
+                    ></span>
+                  {% else %}
+                    <span class="pc-pdp__swatch-text">{{ value }}</span>
+                  {% endif %}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% comment %} Add-to-cart form {% endcomment %}
+      <form
+        method="post"
+        action="/cart/add"
+        class="pc-pdp__form"
+        enctype="multipart/form-data"
+      >
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+
+        <button
+          type="submit"
+          name="add"
+          class="pc-pdp__cta"
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          {% if current_variant.available %}
+            Add to cart - {{ current_variant.price | money }}
+          {% else %}
+            Sold out
+          {% endif %}
+        </button>
+      </form>
+
+      {% comment %} Delivery note (date handled via JS below) {% endcomment %}
+      <p class="pc-pdp__delivery-note">
+        Order today & receive by the <strong id="delivery-date-{{ section.id }}"></strong>
+      </p>
+
+      <hr class="pc-pdp__divider">
+    </div>
+  </div>
+
+
+</section>
+
+{% schema %}
+{
+  "name": "Process – Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_eyebrow",
+      "label": "Show top label (Made to order)",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
